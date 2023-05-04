@@ -8,7 +8,7 @@ import se.kth.iv1350.sale.model.PurchaseDTO;
 
 /**
  * This class represents the external database which contains all of the 
- * available discounts.
+ * available discounts. It is currently hard coded and contains only one discount.
  */
 public class DiscountDatabase {
 	private Map<Integer,DiscountDTO> discounts = new HashMap<Integer,DiscountDTO>();
@@ -17,7 +17,7 @@ public class DiscountDatabase {
 	 * Initializes the discount database.
 	 */
 	public DiscountDatabase() {
-		discounts.put(1, new DiscountDTO(new Amount(15), "Example discount"));
+		discounts.put(1, new DiscountDTO(new Amount((float)0.1), "Example discount"));
 	}
 	
 	/**

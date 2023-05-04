@@ -1,17 +1,23 @@
 package se.kth.iv1350.sale.model;
 
 /**
- * 
- * @author Sophie
- *
+ * This class represents the sale log containing all previous purchases.
  */
-public class SaleLog {
-
-	public SaleLog() {
+class SaleLog 
+{
+	/**
+	 * Creates and initializes a SaleLog.
+	 */
+	SaleLog() {
 
 	}
 	
-	public void log(PurchaseDTO saleInfo, PaymentDTO payment) {
+	/**
+	 * Logs all of the information about this sale.
+	 * @param saleInfo The purchase information.
+	 * @param payment The payment information;
+	 */
+	void log(PurchaseDTO saleInfo, PaymentDTO payment) {
 		
 	}
 

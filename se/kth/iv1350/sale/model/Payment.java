@@ -27,7 +27,7 @@ public class Payment {
 	 */
 	public Amount getChangeAmount(Amount amountPaid) {
 		this.amountPaid = amountPaid;
-		change = new Amount(amountPaid.getValue()-saleInfo.runningTotal.getValue());
+		change = amountPaid.subtract(saleInfo.runningTotal);
 		return change;
 	}
 	
@@ -41,7 +41,7 @@ public class Payment {
 	}
 	
 	/**
-	 * 
+	 * Logs the sale in the internal SaleLog.
 	 */
 	public void logSale() {
 		saleLog.log(saleInfo, getPaymentDTO());
@@ -50,4 +50,5 @@ public class Payment {
 	private PaymentDTO getPaymentDTO() {
 		return new PaymentDTO(amountPaid, change);		
 	}
+	
 }

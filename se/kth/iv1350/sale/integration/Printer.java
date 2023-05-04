@@ -8,7 +8,7 @@ import se.kth.iv1350.sale.model.ReceiptDTO;
 public class Printer {
 
 	/**
-	 * 
+	 * Initializes and creates a Printer.
 	 */
 	public Printer() {
 	}

@@ -3,7 +3,7 @@ import se.kth.iv1350.sale.model.ItemDTO;
 import se.kth.iv1350.sale.model.PurchaseDTO;
 import se.kth.iv1350.sale.model.Amount;
 /**
- *  This class represents the external inventory system. The inventory system is currently hardcoded and contains carrots (itemID 4)
+ *  This class represents the external inventory system. The inventory system is currently hard coded and contains carrots (itemID 4)
  *  and potatoes (itemID 2)
  */
 public class ExternalInventorySystem {
@@ -15,8 +15,8 @@ public class ExternalInventorySystem {
 	 */
 	public ExternalInventorySystem() {
 		items = new ItemDTO[2];
-		items[0] = new ItemDTO(2, "Potato", "A starchy, all-purpose potato", new Amount(10), new Amount (8), new Amount (2));
-		items[1] = new ItemDTO(4, "Carrot", "An orange and sweet carrot", new Amount(4), new Amount (3), new Amount (1));	
+		items[0] = new ItemDTO(2, "Potato", "A starchy, all-purpose potato", new Amount (4), new Amount(0), new Amount (0.25));
+		items[1] = new ItemDTO(4, "Carrot", "An orange and sweet carrot", new Amount (5), new Amount(0), new Amount (0.12));	
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class ExternalInventorySystem {
 	}
 	
 	/**
-	 * This method returns the description and price of the given item.
+	 * This method returns the description and price of the given item. Returns null if the item is not found;
 	 * @return The ItemDTO containing information about the item.
 	 */
 	public ItemDTO getItem(int itemID) {
@@ -47,8 +47,8 @@ public class ExternalInventorySystem {
 	}
 	
 	/**
-	 * 
-	 * @param saleInfo
+	 * This method updates the external inventory system.
+	 * @param saleInfo The current purchase information.
 	 */
 	public void updateInventory(PurchaseDTO saleInfo) {
 		

@@ -3,53 +3,70 @@ package se.kth.iv1350.sale.model;
 import java.util.Vector;
 
 /**
- * An ItemList object represents a list containing Items and the quantity of each Item.
- * @author Sophie
- *
+ * This class represents a list containing multiple Items.
  */
-public class ItemList {
+class ItemList {
 	private Vector<Item> items;	
 	/**
-	 * 
+	 * Initializes and creates an ItemList.
 	 */
-	public ItemList() {
+	ItemList() {
 		items = new Vector<>();
 	}
-	
+
 	/**
-	 * 
+	 * Creates and adds Items of a certain quantity to this ItemList.
+	 * @param item The item to be added to this list.
+	 * @param quantity The quantity of items to be added to this list.
+	 * @return A new ItemDTO with an updated totalPrice.
 	 */
-	public void addItem(ItemDTO item, int quantity) {
+	ItemDTO addItem(ItemDTO item, int quantity) {
+		Item itemObj = createItem(item);
 		for(int i = 0; i < quantity; i++) {
-			items.add(createItem(item));
+			items.add(itemObj);
 		}
+		return itemObj.getDTO();
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Returns the quantity of items in this ItemList.
+	 * @return The size of this ItemList.
 	 */
-	public int getLength() {
+	int getLength() {
 		return items.size();
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Calculates the total price of all Items in this ItemList.
+	 * @return The total price.
 	 */
-	public Amount getTotalPrice() {
+	Amount getTotalPrice() {
 		Amount total = new Amount(0);
 		for(int i = 0; i < this.getLength(); i++) {
-			total.setValue(total.getValue() + items.elementAt(i).getTotalPrice().getValue());
+			total = total.add(items.elementAt(i).getTotalPrice());
 		}
 		return total;
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * 	 * Calculates the total VAT amount of all Items in this ItemList.
+	 * @return The total VAT amount.
 	 */
-	public ItemDTO[] getDTOArray() {
+	Amount getTotalVAT() {
+		Amount total = new Amount(0);
+		for(int i = 0; i < this.getLength(); i++) {
+			Amount itemVAT = new Amount(items.elementAt(i).getTotalPrice());
+			itemVAT = itemVAT.subtract(items.elementAt(i).getPriceBeforeVAT());
+			total = total.add(itemVAT);
+		}
+		return total;
+	}
+	
+	/**
+	 * Creates an ItemDTO array containing the same field values as the Items this ItemList.
+	 * @return The ItemDTO array.
+	 */
+	ItemDTO[] getDTOArray() {
 		ItemDTO[] itemDTOs = new ItemDTO[getLength()];
 		for(int i = 0; i < getLength(); i++) {
 			itemDTOs[i] = items.elementAt(i).getDTO();
@@ -59,5 +76,5 @@ public class ItemList {
 	
 	private Item createItem(ItemDTO item) {
 		return new Item(item);		
-	}	
+	}		
 }

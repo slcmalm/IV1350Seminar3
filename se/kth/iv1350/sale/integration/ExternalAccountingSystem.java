@@ -3,8 +3,7 @@ package se.kth.iv1350.sale.integration;
 import se.kth.iv1350.sale.model.PurchaseDTO;
 
 /**
- * This class represents the external accounting system and is not implemented
- * in this application.
+ * This class represents the external accounting system. 
  * @author Sophie
  *
  */

@@ -1,46 +1,42 @@
 package se.kth.iv1350.sale.model;
 
 /**
- * 
- * @author Sophie
- *
+ * This class is a data transfer object for the Item class. 
  */
 public class ItemDTO {
 
 	public int itemID;
 	public String name;
 	public String description;
-	public Amount totalPrice;
 	public Amount priceBeforeVAT;
-	public Amount VAT;
+	public Amount totalPrice;
+	public Amount VATRate;
 	
 	/**
-	 * 
-	 * @param name
-	 * @param description
-	 * @param itemID
-	 * @param totalPrice
-	 * @param priceBeforeVAT
-	 * @param VAT
+	 * Initializes and creates an ItemDTO.
+	 * @param name The name of the item.
+	 * @param description The item description.
+	 * @param itemID The item ID.
+	 * @param priceBeforeVAT The price of the item before adding VAT.
+	 * @param VAT The VAT rate of this item.
 	 */
-	public ItemDTO(int itemID, String name, String description, Amount totalPrice, Amount priceBeforeVAT, Amount VAT)
+	public ItemDTO(int itemID, String name, String description, Amount priceBeforeVAT, Amount totalPrice, Amount VATRate)
 	{
 		this.itemID = itemID;
 		this.name = name;
 		this.description = description;
-		
-		this.totalPrice = totalPrice;
 		this.priceBeforeVAT = priceBeforeVAT;
-		this.VAT = VAT;
-		
+		this.totalPrice = totalPrice;
+		this.VATRate = VATRate;
 	}
 	
 	/**
-	 * 
+	 * Returns a String containing the contents of this ItemDTO.
 	 */
 	public String toString() {
-		String str = "ItemID = " + String.valueOf(itemID) + ", Name: " + name + ", Description: " + description + ", Price: "
-	+ String.valueOf(totalPrice.getValue()) + ", Price before VAT: " + String.valueOf(priceBeforeVAT.getValue()) + ", VAT amount: " + String.valueOf(VAT.getValue());
+		String str = "ItemID = " + String.valueOf(itemID) + ", Name: " + name + ", Description: " + description + ", "
+				+ "Price before VAT: " + String.valueOf(priceBeforeVAT.getValue()) + ", VAT rate: " + String.valueOf(VATRate.getValue()*100) + "%" 
+				+ ", Price: "+ String.valueOf(totalPrice.getValue());
 		return str;
 	}
 }

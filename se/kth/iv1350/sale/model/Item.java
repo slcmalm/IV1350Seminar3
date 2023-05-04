@@ -1,46 +1,52 @@
 package se.kth.iv1350.sale.model;
 
 /**
- * 
- * @author Sophie
- *
+ * This class represents an item.
  */
-public class Item {
+
+class Item {
 	private int itemID;
 	private String name;
 	private String description;
-	
-	//Should the price be represented by a class?
-	private Amount totalPrice;
 	private Amount priceBeforeVAT;
-	private Amount VAT;
+	private Amount VATRate;
 	
 	/**
-	 * 
+	 * Initializes and creates an Item using the values from an ItemDTO,
+	 * @param item An ItemDTO containing the values to transfer to this Item.
 	 */
-	public Item(ItemDTO item) {
+	Item(ItemDTO item) {
 		itemID = item.itemID;
 		name = item.name;
 		description = item.description;
-		
-		totalPrice = item.totalPrice;
 		priceBeforeVAT = item.priceBeforeVAT;
-		VAT = item.VAT;
+		VATRate = item.VATRate;
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Calculates and returns the total price of this Item, including VAT.
+	 * @return The total price of this Item.
 	 */
-	public Amount getTotalPrice() {
+	Amount getTotalPrice() {
+		Amount VATModifier = new Amount(1);
+		VATModifier = VATModifier.add(VATRate);
+		Amount totalPrice = priceBeforeVAT.multiply(VATModifier);
 		return totalPrice;
 	} 
 
 	/**
-	 * 
+	 * Fetches the price of this Item before VAT.
 	 * @return
 	 */
-	public ItemDTO getDTO() {
-		return new ItemDTO(itemID, name, description, totalPrice, priceBeforeVAT, VAT);
+	Amount getPriceBeforeVAT() {
+		return priceBeforeVAT;
+	} 
+	
+	/**
+	 * Creates and returns an ItemDTO containing the same field values as this Item.
+	 * @return An ItemDTO containing the same field values as this Item.
+	 */
+	ItemDTO getDTO() {
+		return new ItemDTO(itemID, name, description, priceBeforeVAT, getTotalPrice(), VATRate);
 	}
 }

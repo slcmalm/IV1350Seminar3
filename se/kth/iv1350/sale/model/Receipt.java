@@ -1,29 +1,28 @@
 package se.kth.iv1350.sale.model;
 
 /**
- * 
- * @author Sophie
- *
+ * This class represents a receipt which contains information about a purchase and payment.
  */
-public class Receipt {
+class Receipt {
 
 	private PurchaseDTO saleInfo;
 	private PaymentDTO payment;
+	
 	/**
-	 * 
-	 * @param saleInfo
+	 * Creates and initializes a receipt.
+	 * @param saleInfo The information about this purchase.
+	 * @param payment The information about the payment used to pay for the purchase.
 	 */
-	public Receipt(PurchaseDTO saleInfo, PaymentDTO payment) {
+	Receipt(PurchaseDTO saleInfo, PaymentDTO payment) {
 		this.saleInfo = saleInfo;
 		this.payment = payment;
 	}
 		
 	/**
-	 * 
-	 * @param payment
-	 * @return
+	 * Creates and returns a ReceiptDTO containing the same field values as this Receipt.
+	 * @return A ReceiptDTO containing the same field values as this Receipt.
 	 */
-	public ReceiptDTO getReceiptDTO() {
+	ReceiptDTO getReceiptDTO() {
 		return new ReceiptDTO(saleInfo, payment);
 	}
 	

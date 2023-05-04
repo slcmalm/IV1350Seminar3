@@ -1,4 +1,4 @@
-package se.kth.iv1350.sale.controller;
+package Tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import se.kth.iv1350.sale.controller.Controller;
 import se.kth.iv1350.sale.integration.ExternalSystemCreator;
 import se.kth.iv1350.sale.model.Amount;
 

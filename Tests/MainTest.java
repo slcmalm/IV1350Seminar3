@@ -1,8 +1,10 @@
-package se.kth.iv1350.sale.startup;
+package Tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+
+import se.kth.iv1350.sale.startup.Main;
 
 class MainTest {
 

@@ -1,5 +1,6 @@
 package se.kth.iv1350.sale.controller;
 
+import se.kth.iv1350.sale.integration.CashRegister;
 import se.kth.iv1350.sale.integration.DiscountDatabase;
 import se.kth.iv1350.sale.integration.ExternalAccountingSystem;
 import se.kth.iv1350.sale.integration.ExternalInventorySystem;
@@ -17,17 +18,17 @@ import se.kth.iv1350.sale.model.DiscountDTO;
  * The application's controller. All of the calls to the model layer passes through the controller. 
  * The controller also interacts with the external inventory system, accounting system, discount database and printer.
  */
-
 public class Controller {
 	
 	private DiscountDatabase discountDatabase;
 	private ExternalInventorySystem inventorySys;
 	private ExternalAccountingSystem accountingSys;
 	private Printer printer;
+	private CashRegister register;
 	private Purchase currentPurchase;
 	
 	/**
-	 * Initializes the controller.
+	 * Initializes the controller and fetches the external systems.
 	 * @param externalSystems The external systems/databases which the Controller interacts with.
 	 */
 	public Controller (ExternalSystemCreator externalSystems) {
@@ -35,6 +36,7 @@ public class Controller {
 		discountDatabase = externalSystems.getDiscountDB();
 		accountingSys = externalSystems.getAccountingSystem();
 		printer = externalSystems.getPrinter();	
+		register = externalSystems.getRegister();
 	}
 	
 	/**
@@ -51,18 +53,15 @@ public class Controller {
 	 * @return The current purchase description.
 	 */
 	public String registerItem(int itemID, int quantity) {
-		if(inventorySys.getItemValidity(itemID)) {
-			addItemToPurchase(itemID, quantity);
-			return currentPurchase.getPurchaseDTO().toString();
-		}
-		else {
-			return "Error: Invalid itemID. No items added to purchase";
-		}
+		boolean isValid = inventorySys.getItemValidity(itemID);
+		ItemDTO item = inventorySys.getItem(itemID);
+		String itemDescription = currentPurchase.addItem(item, quantity, isValid);
+		return itemDescription;
 	}
 	
 	/**
 	 * Ends the sale and returns the running total.
-	 * @return The running total of the purchase.
+	 * @return The running total of the purchase as a String.
 	 */
 	public Amount endSale() {
 		return currentPurchase.getRunningTotal();
@@ -89,17 +88,22 @@ public class Controller {
 		PurchaseDTO saleInfo = currentPurchase.getPurchaseDTO();
 		Payment payment = new Payment(saleInfo);
 		Amount change = payment.getChangeAmount(amountPaid);
-		ReceiptDTO receipt = payment.getReceipt();
 		payment.logSale();
-		inventorySys.updateInventory(saleInfo);
-		accountingSys.record(saleInfo);
-		printer.print(receipt);
-		System.out.println(receipt.toString());
+		updateExternalSystems(saleInfo);	
+		printReceipt(payment);
 		return change;
 	}
 	
-	private void addItemToPurchase(int itemID, int quantity) {
-		ItemDTO item = inventorySys.getItem(itemID);
-		currentPurchase.addItem(item, quantity);
+	private void updateExternalSystems(PurchaseDTO saleInfo) {
+		inventorySys.updateInventory(saleInfo);
+		accountingSys.record(saleInfo);
+		register.updateAvailableCashAmount(currentPurchase.getRunningTotal());
 	}
+	
+	private void printReceipt(Payment payment) {
+		ReceiptDTO receipt = payment.getReceipt();
+		printer.print(receipt);
+		System.out.println(receipt.toString());		
+	}
+
 }
